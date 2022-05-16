@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { fetchData } from "../../app/data";
 import styles from "./Banner.module.scss";
 
@@ -7,14 +7,19 @@ function Banner() {
 
   useEffect(() => {
     const fetchMovie = async () => {
+      let selectedMovie;
       const request = await fetch(
         `${fetchData.baseUrl}${fetchData.fetchNetflixOriginals}`
       );
       const data = await request.json();
-      console.log(data);
-      setMovie(
-        data.results[Math.floor(Math.random() * data.results.length - 1)]
-      );
+
+      while (!selectedMovie || !selectedMovie.backdrop_path) {
+        selectedMovie =
+          data.results[Math.floor(Math.random() * data.results.length - 1)];
+      }
+      console.log(selectedMovie);
+
+      setMovie(selectedMovie);
 
       return request;
     };

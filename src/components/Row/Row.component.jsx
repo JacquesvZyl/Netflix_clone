@@ -22,8 +22,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
       <div className={styles["row__posters"]}>
         {movies.map(
           (movie) =>
-            ((isLargeRow && movie.poster_path) ||
-              (!isLargeRow && movie.backdrop_path)) && (
+            movie.poster_path && (
               <img
                 className={`${styles["row__poster"]} ${
                   isLargeRow && styles["row__posterLarge"]

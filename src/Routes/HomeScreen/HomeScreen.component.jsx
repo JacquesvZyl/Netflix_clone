@@ -1,8 +1,8 @@
 import React from "react";
 import { fetchData } from "../../app/data";
-import Banner from "../Banner/Banner.component";
-import Navbar from "../navbar/Navbar.component";
-import Row from "../Row/Row.component";
+import Banner from "../../components/Banner/Banner.component";
+import Navbar from "../../components/navbar/Navbar.component";
+import Row from "../../components/Row/Row.component";
 import styles from "./homescreen.module.scss";
 function HomeScreen() {
   return (
