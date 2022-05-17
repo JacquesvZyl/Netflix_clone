@@ -1,9 +1,13 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { fetchData } from "../../app/data";
+
+import { setTrailerKey } from "../../features/trailerSlice";
 import styles from "./Banner.module.scss";
 
 function Banner() {
   const [movie, setMovie] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -26,9 +30,20 @@ function Banner() {
 
     fetchMovie();
   }, []);
+
   const truncate = (string, n) => {
     return string?.length > n ? string.substr(0, n) + "..." : string;
   };
+
+  const setTrailerData = async () => {
+    const resp = await fetch(
+      `https://api.themoviedb.org/3/tv/${movie.id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos`
+    );
+    const data = await resp.json();
+    console.log(data);
+    dispatch(setTrailerKey(data.videos.results[0].key));
+  };
+
   return (
     <header
       className={styles.banner}
@@ -43,7 +58,9 @@ function Banner() {
           {movie?.title || movie?.name || movie?.original_name}
         </h1>
         <div className={styles["banner__buttons"]}>
-          <button className={styles["banner_button"]}>Play</button>
+          <button className={styles["banner_button"]} onClick={setTrailerData}>
+            Play
+          </button>
           <button className={styles["banner_button"]}>My List</button>
         </div>
         <h1 className={styles["banner_description"]}>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchData } from "../../app/data";
 import styles from "./Row.module.scss";
+import RowPoster from "./RowPoster.component";
 
 function Row({ title, fetchUrl, isLargeRow = false }) {
   const [movies, setMovies] = useState([]);
@@ -23,13 +24,9 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
         {movies.map(
           (movie) =>
             movie.poster_path && (
-              <img
-                className={`${styles["row__poster"]} ${
-                  isLargeRow && styles["row__posterLarge"]
-                }`}
-                key={movie.id}
-                src={`https://image.tmdb.org/t/p/w185${movie.poster_path}`}
-                alt={movie.name || movie.original_title || movie.title}
+              <RowPoster
+                movie={movie}
+                type={title.toLowerCase().includes("netflix") ? "tv" : "movie"}
               />
             )
         )}

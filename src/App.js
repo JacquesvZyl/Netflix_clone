@@ -8,10 +8,19 @@ import { onAuthStateChangeListener } from "./firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "./features/userSlice";
 import ProfileScreen from "./Routes/profileScreen/ProfileScreen.component";
+import VideoPopup from "./components/videoPlayerPopup/VideoPopup.component";
+import { removeTrailerKey } from "./features/trailerSlice";
 
 function App() {
   const user = useSelector(selectUser);
+  const trailer = useSelector((state) => state.trailer.trailerKey);
+
   const dispatch = useDispatch();
+
+  const onModalClick = () => {
+    dispatch(removeTrailerKey());
+    console.log("clicked");
+  };
   useEffect(() => {
     console.log("in App useEffect");
     const unsubscribe = onAuthStateChangeListener((user) => {
@@ -35,6 +44,7 @@ function App() {
   }, [dispatch]);
   return (
     <div className="App">
+      {trailer && <VideoPopup videoId={trailer} onClick={onModalClick} />}
       {!user ? (
         <Login />
       ) : (
