@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchData } from "../../app/data";
 
-import { setTrailerKey } from "../../features/trailerSlice";
+import { setTrailerData } from "../../features/trailerSlice";
 import styles from "./Banner.module.scss";
 
 function Banner() {
@@ -35,13 +35,17 @@ function Banner() {
     return string?.length > n ? string.substr(0, n) + "..." : string;
   };
 
-  const setTrailerData = async () => {
+  const setTrailer = async () => {
     const resp = await fetch(
       `https://api.themoviedb.org/3/tv/${movie.id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos`
     );
     const data = await resp.json();
     console.log(data);
-    dispatch(setTrailerKey(data.videos.results[0].key));
+    data.videos.results[0]
+      ? dispatch(
+          setTrailerData({ key: data.videos.results[0].key, isBanner: true })
+        )
+      : alert("No video Found");
   };
 
   return (
@@ -58,7 +62,7 @@ function Banner() {
           {movie?.title || movie?.name || movie?.original_name}
         </h1>
         <div className={styles["banner__buttons"]}>
-          <button className={styles["banner_button"]} onClick={setTrailerData}>
+          <button className={styles["banner_button"]} onClick={setTrailer}>
             Play
           </button>
           <button className={styles["banner_button"]}>My List</button>

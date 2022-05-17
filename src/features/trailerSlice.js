@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  trailerKey: null,
+  trailerData: null,
 };
 
 export const trailerSlice = createSlice({
@@ -9,15 +9,15 @@ export const trailerSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setTrailerKey: (state, action) => {
-      state.trailerKey = action.payload;
+    setTrailerData: (state, action) => {
+      state.trailerData = action.payload;
     },
-    removeTrailerKey: (state) => {
-      state.trailerKey = null;
+    removeTrailerData: (state) => {
+      state.trailerData = null;
     },
   },
 });
 
-export const { setTrailerKey, removeTrailerKey } = trailerSlice.actions;
+export const { setTrailerData, removeTrailerData } = trailerSlice.actions;
 
 export default trailerSlice.reducer;

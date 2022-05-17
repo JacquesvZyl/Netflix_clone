@@ -27,6 +27,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
               <RowPoster
                 movie={movie}
                 type={title.toLowerCase().includes("netflix") ? "tv" : "movie"}
+                key={movie.id}
               />
             )
         )}
