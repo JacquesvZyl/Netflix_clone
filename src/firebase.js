@@ -7,7 +7,15 @@ import {
   signOut,
 } from "firebase/auth";
 
-import { getFirestore } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDocs,
+  getFirestore,
+  onSnapshot,
+  query,
+  setDoc,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyALoe89lhxJZ8eqXS3XpqUmsDFxSW-GGRQ",
@@ -49,4 +57,52 @@ export async function signOutUser() {
   await signOut(auth);
 }
 
-export default db;
+export async function getPlans() {
+  const products = {};
+  const productsRef = collection(db, "products");
+  const q = query(productsRef);
+  const productSnapShot = await getDocs(q);
+  productSnapShot.docs.forEach(async (productDoc) => {
+    products[productDoc.id] = productDoc.data();
+    const priceRef = collection(productDoc.ref, "prices");
+    const priceSnapShot = await getDocs(priceRef);
+    priceSnapShot.forEach((doc) => {
+      products[productDoc.id].prices = {
+        priceId: doc.id,
+        priceData: doc.data(),
+      };
+    });
+  });
+
+  return products;
+}
+
+export async function loadCheckout(user, priceId, origin) {
+  try {
+    const userdocRef = doc(db, "customers", user.uid);
+
+    await setDoc(userdocRef, {
+      checkout_sessions: {
+        success_url: origin,
+        cancel_url: origin,
+        price: priceId,
+      },
+    });
+  } catch (error) {
+    alert(`an Error occured: ${error.message}`);
+  }
+}
+
+/* 
+.onSnapshot(async (snap) => {
+      const { error, sessionId } = snap.data();
+      if (error) {
+        throw new Error(error);
+      }
+      if (sessionId) {
+        console.log(sessionId);
+      }
+    });
+  
+
+*/
