@@ -23,26 +23,37 @@
     }
   }
 
+  .row__btn__container {
+    &:hover {
+      .row__scrollBtn {
+        display: block;
+      }
+    }
+  }
+
   .row__scrollBtn {
-    background-color: rgba(192, 189, 189, 0.8);
+    background-color: rgba(255, 249, 249, 0.8);
     color: white;
     position: absolute;
-    height: 100%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
     top: 50%;
     transform: translateY(-50%);
-    font-weight: 800;
+
+    display: none;
 
     z-index: 2;
     border: none;
 
     &:hover {
       cursor: pointer;
-      background-color: rgba(19, 18, 18, 0.8);
+      background-color: rgba(129, 126, 126, 0.8);
     }
   }
 
   .row__scrollBtn--left {
-    left: 0;
+    left: -20px;
   }
   .row__scrollBtn--right {
     right: 0;

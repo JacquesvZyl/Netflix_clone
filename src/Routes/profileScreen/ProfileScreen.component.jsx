@@ -20,7 +20,6 @@ function ProfileScreen() {
       setLoading(true);
       try {
         const data = await getPlans();
-        console.log(data);
         setProducts(data);
       } catch (error) {
         alert(error.message);

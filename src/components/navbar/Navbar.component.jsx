@@ -22,7 +22,7 @@ function Navbar() {
   return (
     <div className={`${styles.nav} ${show && styles["nav__black"]}`}>
       <div className={styles["nav__contents"]}>
-        <Link to="/">
+        <Link to="/watch">
           <img
             className={styles["nav__logo"]}
             src={netflixLogo}

@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   auth,
   createAuthUserWithEmailAndPassword,
@@ -9,6 +10,7 @@ import styles from "./SignUpScreen.module.scss";
 function SignUpScreen() {
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
+  const navigate = useNavigate();
 
   const register = async (e) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ function SignUpScreen() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      console.log(resp);
+      navigate("/watch");
     } catch (error) {
       alert(error.message);
     }

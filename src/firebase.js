@@ -108,6 +108,7 @@ export async function loadCheckout(user, priceId, origin) {
 }
 
 export async function getSubscription(user) {
+  if (!user) return;
   let currentSubscription;
   const userSubRef = collection(db, `customers/${user.uid}/subscriptions`);
   const q = query(userSubRef);

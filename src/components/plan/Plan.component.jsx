@@ -26,7 +26,7 @@ function Plan(props) {
   return (
     <div
       className={`${
-        isCurrentPackage && styles["plansScreen__plan--disabled"]
+        isCurrentPackage ? styles["plansScreen__plan--disabled"] : undefined
       } ${styles.plansScreen__plan}`}
       key={productId}
     >
@@ -35,7 +35,7 @@ function Plan(props) {
         <h6>{productData.description}</h6>
       </div>
       <button
-        className={isLoading && styles.button__loading}
+        className={isLoading ? styles.button__loading : undefined}
         onClick={onClickHandler}
       >
         <span className={styles.text}>{currentPackage}</span>

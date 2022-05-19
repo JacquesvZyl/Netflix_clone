@@ -34,7 +34,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
           className={`${styles.row__scrollBtn} ${styles["row__scrollBtn--left"]} `}
           onClick={() => scroll(-380)}
         >
-          <LeftArrow height="50px" width="20px" />
+          <LeftArrow height="60px" width="30px" />
         </button>
         <div className={styles["row__posters"]} ref={ref}>
           {movies.map(
@@ -54,7 +54,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
           className={`${styles.row__scrollBtn} ${styles["row__scrollBtn--right"]} `}
           onClick={() => scroll(380)}
         >
-          <RightArrow height="50px" width="20px" />
+          <RightArrow height="60px" width="30px" />
         </button>
       </div>
     </div>
