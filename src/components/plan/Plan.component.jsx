@@ -11,15 +11,19 @@ function Plan(props) {
     .includes(subscription?.role);
 
   const currentPackage = isCurrentPackage ? "Current Package" : "Subscribe";
-
+  console.log("plan running");
   const onClickHandler = async () => {
     if (!isCurrentPackage) {
       setLoading(true);
-      await loadCheckoutHandler(
-        productData.prices.priceId,
-        window.location.origin
-      );
-      setLoading(false);
+      try {
+        await loadCheckoutHandler(
+          productData.prices.priceId,
+          window.location.origin
+        );
+      } catch (error) {
+        setLoading(false);
+        alert(error.message);
+      }
     }
   };
 
@@ -37,6 +41,7 @@ function Plan(props) {
       <button
         className={isLoading ? styles.button__loading : undefined}
         onClick={onClickHandler}
+        disabled={isLoading}
       >
         <span className={styles.text}>{currentPackage}</span>
         <span className={styles.spinner}></span>

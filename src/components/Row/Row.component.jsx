@@ -22,7 +22,6 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
   }, [fetchUrl]);
 
   const scroll = (scrollOffset) => {
-    console.log(ref);
     ref.current.scrollLeft += scrollOffset;
   };
 
@@ -41,6 +40,7 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
             (movie) =>
               movie.poster_path && (
                 <RowPoster
+                  isLargeRow={isLargeRow}
                   movie={movie}
                   type={
                     title.toLowerCase().includes("netflix") ? "tv" : "movie"

@@ -21,7 +21,11 @@ function Plans(props) {
   }, [user, dispatch]);
 
   const loadCheckoutHandler = async (priceId, origin) => {
-    await loadCheckout(user, priceId, origin);
+    try {
+      await loadCheckout(user, priceId, origin);
+    } catch (error) {
+      throw new Error(error);
+    }
   };
 
   return (

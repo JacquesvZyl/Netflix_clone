@@ -23,6 +23,9 @@
     border: none;
     cursor: pointer;
     font-weight: 600;
+    &:disabled {
+      cursor: default;
+    }
   }
 
   .button__loading {
