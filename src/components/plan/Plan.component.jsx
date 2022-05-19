@@ -34,8 +34,12 @@ function Plan(props) {
         <h5>{productData.name}</h5>
         <h6>{productData.description}</h6>
       </div>
-      <button onClick={onClickHandler}>
-        {isLoading ? <LoadingSpinner width="20px" /> : currentPackage}
+      <button
+        className={isLoading && styles.button__loading}
+        onClick={onClickHandler}
+      >
+        <span className={styles.text}>{currentPackage}</span>
+        <span className={styles.spinner}></span>
       </button>
     </div>
   );

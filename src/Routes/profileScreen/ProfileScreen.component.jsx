@@ -54,7 +54,11 @@ function ProfileScreen() {
                   )
                 </span>
               </h3>
-              {isloading ? <LoadingSpinner /> : <Plans products={products} />}
+              {isloading ? (
+                <LoadingSpinner width="265px" />
+              ) : (
+                <Plans products={products} />
+              )}
               <button
                 className={styles.profileScreen__signOut}
                 onClick={logoutUser}

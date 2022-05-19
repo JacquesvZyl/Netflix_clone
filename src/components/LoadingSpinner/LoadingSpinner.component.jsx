@@ -2,7 +2,8 @@ import React from "react";
 import styles from "./LoadingSpinner.module.scss";
 
 function LoadingSpinner(props) {
-  const { width = "120px" } = props;
+  const { width = "120px", stroke = "rgb(223, 58, 52)" } = props;
+
   return (
     <div className={styles.spinner__container}>
       <svg
@@ -17,6 +18,7 @@ function LoadingSpinner(props) {
           r="20"
           fill="none"
           strokeWidth="5"
+          style={{ stroke }}
         ></circle>
       </svg>
     </div>
