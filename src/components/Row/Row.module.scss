@@ -5,16 +5,52 @@
   h2 {
     text-transform: uppercase;
     font-size: 1.4rem;
+    padding: 20px 0px;
+  }
+
+  .row__btn__container {
+    position: relative;
   }
 
   .row__posters {
+    scroll-behavior: smooth;
     display: flex;
     overflow-y: hidden;
     overflow-x: scroll;
-    padding: 20px;
-
+    padding: 0px 20px;
     &::-webkit-scrollbar {
       display: none;
     }
+  }
+
+  .row__scrollBtn {
+    background-color: rgba(46, 44, 44, 0.8);
+    color: white;
+    position: absolute;
+    height: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-weight: 800;
+    font-size: 20px;
+    z-index: 2;
+    border: none;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(19, 18, 18, 0.8);
+    }
+  }
+
+  .row__scrollBtn--left {
+    left: 0;
+  }
+  .row__scrollBtn--right {
+    right: 0;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .row__scrollBtn {
+    display: none;
   }
 }

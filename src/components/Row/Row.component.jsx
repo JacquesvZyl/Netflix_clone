@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { fetchData } from "../../app/data";
 import styles from "./Row.module.scss";
 import RowPoster from "./RowPoster.component";
 
 function Row({ title, fetchUrl, isLargeRow = false }) {
   const [movies, setMovies] = useState([]);
+  const ref = useRef();
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -17,20 +18,42 @@ function Row({ title, fetchUrl, isLargeRow = false }) {
 
     fetchMovies();
   }, [fetchUrl]);
+
+  const scroll = (scrollOffset) => {
+    console.log(ref);
+    ref.current.scrollLeft += scrollOffset;
+  };
+
   return (
     <div className={styles.row}>
       <h2>{title}</h2>
-      <div className={styles["row__posters"]}>
-        {movies.map(
-          (movie) =>
-            movie.poster_path && (
-              <RowPoster
-                movie={movie}
-                type={title.toLowerCase().includes("netflix") ? "tv" : "movie"}
-                key={movie.id}
-              />
-            )
-        )}
+      <div className={styles.row__btn__container}>
+        <button
+          className={`${styles.row__scrollBtn} ${styles["row__scrollBtn--left"]} `}
+          onClick={() => scroll(-380)}
+        >
+          {"<"}
+        </button>
+        <div className={styles["row__posters"]} ref={ref}>
+          {movies.map(
+            (movie) =>
+              movie.poster_path && (
+                <RowPoster
+                  movie={movie}
+                  type={
+                    title.toLowerCase().includes("netflix") ? "tv" : "movie"
+                  }
+                  key={movie.id}
+                />
+              )
+          )}
+        </div>
+        <button
+          className={`${styles.row__scrollBtn} ${styles["row__scrollBtn--right"]} `}
+          onClick={() => scroll(380)}
+        >
+          {">"}
+        </button>
       </div>
     </div>
   );

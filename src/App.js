@@ -1,7 +1,7 @@
 import "./App.scss";
 import React, { useEffect } from "react";
 
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import HomeScreen from "./Routes/HomeScreen/HomeScreen.component";
 import Login from "./Routes/Login/Login.component";
 import { onAuthStateChangeListener } from "./firebase";
@@ -9,16 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { login, logout, selectUser } from "./features/userSlice";
 import ProfileScreen from "./Routes/profileScreen/ProfileScreen.component";
 import VideoPopup from "./components/videoPlayerPopup/VideoPopup.component";
+import { removePlan } from "./features/subScriptionPlanSlice";
 
 function App() {
   const user = useSelector(selectUser);
+  const subscription = useSelector((state) => state.subscription.plan);
+  console.log(subscription);
   const trailer = useSelector((state) => state.trailer.trailerData);
-  console.log(trailer);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("in App useEffect");
     const unsubscribe = onAuthStateChangeListener((user) => {
       if (user) {
         //logged in
@@ -32,6 +34,7 @@ function App() {
         );
       } else {
         //logged out
+        dispatch(removePlan());
         dispatch(logout());
       }
     });
@@ -45,7 +48,16 @@ function App() {
         <Login />
       ) : (
         <Routes>
-          <Route path="/" element={user ? <HomeScreen /> : <Login />} />
+          <Route
+            path="/"
+            element={
+              subscription?.role ? (
+                <HomeScreen />
+              ) : (
+                <Navigate replace to="/profile" />
+              )
+            }
+          />
           <Route path="/profile" element={<ProfileScreen />} />
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>

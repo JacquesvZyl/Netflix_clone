@@ -57,3 +57,23 @@
     #111
   );
 }
+
+@media screen and (max-width: 400px) {
+  .banner {
+    .banner__title {
+      font-size: 2rem;
+      text-align: center;
+    }
+    .banner__contents {
+      margin-left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .banner_description {
+      width: 200px;
+    }
+  }
+}

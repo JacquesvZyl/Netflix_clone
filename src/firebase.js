@@ -1,3 +1,4 @@
+import { loadStripe } from "@stripe/stripe-js";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -8,13 +9,12 @@ import {
 } from "firebase/auth";
 
 import {
+  addDoc,
   collection,
-  doc,
   getDocs,
   getFirestore,
   onSnapshot,
   query,
-  setDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -79,30 +79,47 @@ export async function getPlans() {
 
 export async function loadCheckout(user, priceId, origin) {
   try {
-    const userdocRef = doc(db, "customers", user.uid);
-
-    await setDoc(userdocRef, {
-      checkout_sessions: {
+    const userdocRef = await addDoc(
+      collection(db, `customers/${user.uid}/checkout_sessions`),
+      {
+        price: priceId,
         success_url: origin,
         cancel_url: origin,
-        price: priceId,
-      },
+      }
+    );
+
+    onSnapshot(userdocRef, async (snap) => {
+      const { error, url } = snap.data();
+      if (error) {
+        // Show an error to your customer and
+        // inspect your Cloud Function logs in the Firebase console.
+        throw new Error(error);
+      }
+      if (url) {
+        // We have a Stripe Checkout URL, let's redirect.
+        //const stripe = await loadStripe(process.env.REACT_APP_STRIPE_API_KEY);
+        //stripe.redirectToCheckout({ sessionId });
+        window.location.assign(url);
+      }
     });
   } catch (error) {
     alert(`an Error occured: ${error.message}`);
   }
 }
 
-/* 
-.onSnapshot(async (snap) => {
-      const { error, sessionId } = snap.data();
-      if (error) {
-        throw new Error(error);
-      }
-      if (sessionId) {
-        console.log(sessionId);
-      }
-    });
-  
+export async function getSubscription(user) {
+  let currentSubscription;
+  const userSubRef = collection(db, `customers/${user.uid}/subscriptions`);
+  const q = query(userSubRef);
+  const subSnapShot = await getDocs(q);
+  subSnapShot.forEach(async (sub) => {
+    const { role, current_period_end, current_period_start } = sub.data();
+    currentSubscription = {
+      role,
+      current_period_end: current_period_end.seconds,
+      current_period_start: current_period_start.seconds,
+    };
+  });
 
-*/
+  return currentSubscription?.role ? currentSubscription : null;
+}

@@ -1,12 +1,35 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import Navbar from "../../components/navbar/Navbar.component";
 import Plans from "../../components/plans/Plans.component";
-import { logout, selectUser } from "../../features/userSlice";
-import { signOutUser } from "../../firebase";
+import { selectUser } from "../../features/userSlice";
+import { getPlans, signOutUser } from "../../firebase";
+import { capitalizeFirstLetter } from "../../utils/utilFunctions";
 import styles from "./ProfileScreen.module.scss";
+import netflixAvatar from "../../assets/images/Netflix_avatar.png";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.component";
+
 function ProfileScreen() {
+  const [isloading, setLoading] = useState(false);
+  const [products, setProducts] = useState(null);
   const user = useSelector(selectUser);
+  const subscription = useSelector((state) => state.subscription.plan);
+
+  useEffect(() => {
+    const retrievePlans = async () => {
+      setLoading(true);
+      try {
+        const data = await getPlans();
+        console.log(data);
+        setProducts(data);
+      } catch (error) {
+        alert(error.message);
+      }
+      setLoading(false);
+    };
+
+    retrievePlans();
+  }, []);
 
   const logoutUser = async () => {
     await signOutUser();
@@ -17,15 +40,21 @@ function ProfileScreen() {
       <div className={styles.profileScreen__body}>
         <h1>Edit Profile</h1>
         <div className={styles.profileScreen__info}>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
-            alt="avatar"
-          />
+          <img src={netflixAvatar} alt="avatar" />
           <div className={styles.profileScreen__details}>
             <h2>{user.email}</h2>
             <div className={styles.profileScreen__plans}>
-              <h3>Plans</h3>
-              <Plans />
+              <h3>
+                Plans{" "}
+                <span>
+                  (Current Plan:{" "}
+                  {subscription?.role
+                    ? capitalizeFirstLetter(subscription.role)
+                    : "none"}
+                  )
+                </span>
+              </h3>
+              {isloading ? <LoadingSpinner /> : <Plans products={products} />}
               <button
                 className={styles.profileScreen__signOut}
                 onClick={logoutUser}
