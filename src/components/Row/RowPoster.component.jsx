@@ -25,12 +25,8 @@ function RowPoster(props) {
           key: officialTrailer
             ? officialTrailer.key
             : data.videos.results[0].key,
-          backdrop_path: data.backdrop_path,
-          name: data.name,
-          title: data.title,
-          original_name: data.original_name,
-          overview: data.overview,
           isBanner: false,
+          ...props.movie,
         })
       );
     } else {

@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import { loadStripe } from "@stripe/stripe-js";
 import { initializeApp } from "firebase/app";
 import {
@@ -10,11 +11,16 @@ import {
 
 import {
   addDoc,
+  arrayUnion,
   collection,
+  deleteDoc,
+  doc,
   getDocs,
   getFirestore,
   onSnapshot,
   query,
+  setDoc,
+  updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -27,7 +33,7 @@ const firebaseConfig = {
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore();
+export const db = getFirestore();
 const auth = getAuth(firebaseApp);
 
 export async function signInWithEmailAndPw(email, password) {
@@ -43,6 +49,7 @@ export async function createAuthUserWithEmailAndPassword(email, password) {
   try {
     if (!email || !password) throw new Error("Email or password is blank");
 
+    console.log(auth);
     return await createUserWithEmailAndPassword(auth, email, password);
   } catch (error) {
     throw error;
@@ -113,6 +120,7 @@ export async function getSubscription(user) {
   const userSubRef = collection(db, `customers/${user.uid}/subscriptions`);
   const q = query(userSubRef);
   const subSnapShot = await getDocs(q);
+
   subSnapShot.forEach(async (sub) => {
     const { role, current_period_end, current_period_start } = sub.data();
     currentSubscription = {
@@ -123,4 +131,59 @@ export async function getSubscription(user) {
   });
 
   return currentSubscription?.role ? currentSubscription : null;
+}
+
+/* export async function setSavedShows(user, show) {
+  await updateDoc(doc(db, `customers/${user.uid}`)),
+    {
+      savedShows: arrayUnion({
+        show,
+      }),
+    };
+} */
+
+export async function addRemoveToList(user, movie, addedToList) {
+  if (addedToList) {
+    //delete
+    await deleteDoc(
+      doc(db, "customers", user.uid, "myList", movie?.id.toString())
+    );
+  } else {
+    //add
+    await setDoc(
+      doc(db, "customers", user.uid, "myList", movie?.id.toString()),
+      {
+        ...movie,
+      }
+    );
+  }
+}
+
+export function returnMoviesInList(user, setMovies) {
+  return onSnapshot(
+    collection(db, `customers/${user.uid}/myList`),
+    (snapshot) => setMovies(snapshot.docs)
+  );
+
+  /*   const movieList = [];
+  const ref = collection(db, `customers/${user.uid}/myList`);
+  const q = query(ref);
+  const snapShot = await getDocs(q);
+  snapShot.forEach((movie) => {
+    movieList.push(movie.data());
+  }); */
+}
+
+export function returnArrayOfMoviesInList(user, setMovies) {
+  return onSnapshot(
+    collection(db, `customers/${user.uid}/myList`),
+    (snapshot) => {
+      const movies = snapshot.docs.map((movie) => movie.data());
+      setMovies((val) => movies);
+    }
+  );
+}
+
+export function isMovieInList(allMovies, movie) {
+  return allMovies.some((result) => result.data().id === movie?.id);
 }

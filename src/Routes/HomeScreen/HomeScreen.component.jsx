@@ -21,6 +21,7 @@ function HomeScreen() {
       <Row title="Horror Movies" fetchUrl={fetchData.fetchHorrorMovies} />
       <Row title="Romance Movies" fetchUrl={fetchData.fetchRomanceMovies} />
       <Row title="Documentaries" fetchUrl={fetchData.fetchDocumentaries} />
+      <Row title="My List" isMyList="true" />
     </div>
   );
 }

@@ -1,8 +1,9 @@
+import { doc, setDoc } from "firebase/firestore";
 import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  auth,
   createAuthUserWithEmailAndPassword,
+  db,
   signInWithEmailAndPw,
 } from "../../firebase";
 import styles from "./SignUpScreen.module.scss";
@@ -19,8 +20,11 @@ function SignUpScreen() {
         emailRef.current.value,
         passwordRef.current.value
       );
-
       console.log(resp);
+      await setDoc(doc(db, "customers", resp.user.uid), {
+        myList: [],
+      });
+      navigate("/profile");
     } catch (error) {
       alert(error.message);
     }

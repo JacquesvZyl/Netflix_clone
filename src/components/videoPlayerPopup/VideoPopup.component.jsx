@@ -17,7 +17,7 @@ function Backdrop(props) {
   return <div className={styles.backdrop} onClick={props.onClick} />;
 }
 
-function VideoPopup(props) {
+function VideoPopup() {
   const [playVideo, setPlayVideo] = useState(false);
   const dispatch = useDispatch();
   const trailer = useSelector((state) => state.trailer.trailerData);
