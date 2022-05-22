@@ -38,28 +38,30 @@ function SubscriptionRoute({ children }) {
             photoUrl: user.photoURL,
           })
         );
-        setSavedUser(true);
       } else {
         //logged out
         dispatch(removePlan());
         dispatch(logout());
       }
+      setSavedUser(true);
     });
 
     return unsubscribe;
   }, [dispatch]);
 
-  if (savedUser && savedSubscription) {
-    if (!user.uid) {
+  if (savedUser) {
+    if (!user) {
       console.log("no UID can be found. Redirecting to /signIn");
       return <Navigate to="/sign-in" replace />;
     }
-    if (!subscription?.role) {
-      console.log("no subscription can be found. Redirecting to /profile");
-      return <Navigate to="/profile" replace />;
+    if (savedSubscription) {
+      if (!subscription?.role) {
+        console.log("no subscription can be found. Redirecting to /profile");
+        return <Navigate to="/profile" replace />;
+      }
+      console.log("UID and subscription found. Redirecting to /watch");
+      return children;
     }
-    console.log("UID and subscription found. Redirecting to /watch");
-    return children;
   }
   return null;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import LoadingSpinner from "../LoadingSpinner/LoadingSpinner.component";
+import ButtonWithSpinner from "../UI/ButtonWithSpinner/ButtonWithSpinner.component";
 import styles from "./Plan.module.scss";
 
 function Plan(props) {
@@ -38,14 +39,17 @@ function Plan(props) {
         <h5>{productData.name}</h5>
         <h6>{productData.description}</h6>
       </div>
-      <button
+      {/*       <button
         className={isLoading ? styles.button__loading : undefined}
         onClick={onClickHandler}
         disabled={isLoading}
       >
         <span className={styles.text}>{currentPackage}</span>
         <span className={styles.spinner}></span>
-      </button>
+      </button> */}
+      <ButtonWithSpinner isLoading={isLoading} onClick={onClickHandler}>
+        {currentPackage}
+      </ButtonWithSpinner>
     </div>
   );
 }

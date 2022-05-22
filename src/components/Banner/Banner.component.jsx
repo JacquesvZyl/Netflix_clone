@@ -3,30 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../app/data";
 
 import { setTrailerData } from "../../features/trailerSlice";
-import {
-  removeSavedShow,
-  addSavedShow,
-  selectSavedShows,
-  selectUser,
-} from "../../features/userSlice";
+import { selectUser } from "../../features/userSlice";
 import {
   addRemoveToList,
-  db,
   isMovieInList,
   returnMoviesInList,
-  setSavedShows,
 } from "../../firebase";
 import styles from "./Banner.module.scss";
 
-function Banner() {
+function Banner({ type }) {
   const [movie, setMovie] = useState([]);
   const [allMovies, setAllMovies] = useState(null);
   const [isAddedToList, setAddedToList] = useState(false);
   const dispatch = useDispatch();
-  const savedShows = useSelector(selectSavedShows);
+
   const user = useSelector(selectUser);
-  console.log(allMovies);
-  console.log(movie);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -40,9 +31,9 @@ function Banner() {
         selectedMovie =
           data.results[Math.floor(Math.random() * data.results.length - 1)];
       }
-      console.log(selectedMovie);
 
-      setMovie(selectedMovie);
+      const finalMovieData = { ...selectedMovie, media_type: type };
+      setMovie(finalMovieData);
 
       return request;
     };
@@ -52,13 +43,13 @@ function Banner() {
 
   useEffect(() => {
     return returnMoviesInList(user, setAllMovies);
-  }, [movie?.id]);
+  }, [movie?.id, user]);
 
   useEffect(() => {
     if (!allMovies) return;
     const checkMovieList = isMovieInList(allMovies, movie);
     setAddedToList(checkMovieList);
-  }, [allMovies]);
+  }, [allMovies, movie]);
 
   const truncate = (string, n) => {
     return string?.length > n ? string.substr(0, n) + "..." : string;
@@ -70,10 +61,10 @@ function Banner() {
 
   const setTrailer = async () => {
     const resp = await fetch(
-      `https://api.themoviedb.org/3/tv/${movie.id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos`
+      `https://api.themoviedb.org/3/${type}/${movie.id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos`
     );
     const data = await resp.json();
-    console.log(data);
+
     data.videos.results[0]
       ? dispatch(
           setTrailerData({ key: data.videos.results[0].key, isBanner: true })

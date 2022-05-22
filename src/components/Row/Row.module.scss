@@ -40,7 +40,7 @@
   .row__btn__container {
     &:hover {
       .row__scrollBtn {
-        display: block;
+        display: flex;
       }
     }
   }
@@ -57,6 +57,8 @@
     display: none;
     z-index: 2;
     border: none;
+    align-items: center;
+    justify-content: center;
 
     &:hover {
       cursor: pointer;

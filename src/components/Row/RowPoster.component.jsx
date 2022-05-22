@@ -4,14 +4,16 @@ import { setTrailerData } from "../../features/trailerSlice";
 import styles from "./RowPoster.module.scss";
 
 function RowPoster(props) {
-  const { id, poster_path, name, original_title, title } = props.movie;
+  const { id, poster_path, name, original_title, title, media_type } =
+    props.movie;
   const dispatch = useDispatch();
 
   const setTrailer = async () => {
     const resp = await fetch(
-      `https://api.themoviedb.org/3/${props.type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos`
+      `https://api.themoviedb.org/3/${media_type}/${id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos`
     );
     const data = await resp.json();
+
     if (data.videos.results[0]) {
       const officialTrailer = data.videos.results.find((trailer) => {
         return (

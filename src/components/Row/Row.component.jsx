@@ -13,6 +13,7 @@ function Row({
   fetchUrl = false,
   isLargeRow = false,
   isMyList = false,
+  type,
 }) {
   const [movies, setMovies] = useState([]);
   const ref = useRef();
@@ -23,7 +24,13 @@ function Row({
     const fetchMovies = async () => {
       const request = await fetch(`${fetchData.baseUrl}${fetchUrl}`);
       const data = await request.json();
-      setMovies(data.results);
+      const moviesWithType = data.results.map((movieArr) => {
+        return {
+          ...movieArr,
+          media_type: type,
+        };
+      });
+      setMovies(moviesWithType);
 
       return request;
     };
@@ -46,12 +53,7 @@ function Row({
   const moviePosterArray = movies.map(
     (movie) =>
       movie.poster_path && (
-        <RowPoster
-          isLargeRow={isLargeRow}
-          movie={movie}
-          type={title.toLowerCase().includes("netflix") ? "tv" : "movie"}
-          key={movie.id}
-        />
+        <RowPoster isLargeRow={isLargeRow} movie={movie} key={movie.id} />
       )
   );
 
@@ -63,7 +65,7 @@ function Row({
           className={`${styles.row__scrollBtn} ${styles["row__scrollBtn--left"]} `}
           onClick={() => scroll(-380)}
         >
-          <LeftArrow height="60px" width="30px" />
+          <LeftArrow height="100%" width="100%" />
         </button>
         <div
           className={`${styles.row__posters} ${
@@ -81,7 +83,7 @@ function Row({
           className={`${styles.row__scrollBtn} ${styles["row__scrollBtn--right"]} `}
           onClick={() => scroll(380)}
         >
-          <RightArrow height="60px" width="30px" />
+          <RightArrow height="100%" width="100%" />
         </button>
       </div>
     </div>

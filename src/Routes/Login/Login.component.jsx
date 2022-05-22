@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import SignUpScreen from "../signUpScreen/SignUpScreen.component";
 import styles from "./Login.module.scss";
+import logo from "../../assets/images/netflix_logo.png";
 
 function Login() {
   const [signIn, setSignIn] = useState(false);
@@ -9,7 +10,7 @@ function Login() {
       <div className={styles["loginScreen__background"]}>
         <img
           className={styles["loginScreen__logo"]}
-          src="https://assets.stickpng.com/images/580b57fcd9996e24bc43c529.png"
+          src={logo}
           alt="netflix logo"
         />
         <button
@@ -27,13 +28,9 @@ function Login() {
           <>
             <h1>Unlimited Films, TV programmes and more.</h1>
             <h2>Watch anywhere. Cancel at any time.</h2>
-            <h3>
-              Ready to watch? Enter your e-mail to create or restart your
-              membership
-            </h3>
+            <h3>Ready to watch? Press the button below to get started!</h3>
             <div className={styles["loginScreen__input"]}>
               <form>
-                <input type="email" placeholder="Email Address" />
                 <button
                   className={styles["loginScreen__getStarted"]}
                   onClick={() => setSignIn(true)}

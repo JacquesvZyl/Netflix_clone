@@ -11,7 +11,7 @@ import styles from "./VideoInfo.module.scss";
 function VideoInfo(props) {
   const user = useSelector(selectUser);
   const movie = useSelector((state) => state.trailer.trailerData);
-  console.log(movie);
+
   const [allMovies, setAllMovies] = useState(null);
   const [isAddedToList, setAddedToList] = useState(false);
 

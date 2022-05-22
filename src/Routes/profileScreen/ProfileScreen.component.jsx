@@ -49,7 +49,7 @@ function ProfileScreen() {
                   (Current Plan:{" "}
                   {subscription?.role
                     ? capitalizeFirstLetter(subscription.role)
-                    : "none"}
+                    : "None"}
                   )
                 </span>
               </h3>

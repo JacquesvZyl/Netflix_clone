@@ -1,0 +1,49 @@
+button {
+  position: relative;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #e50914;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  &:disabled {
+    cursor: default;
+  }
+}
+
+.button__loading {
+  .text {
+    color: transparent;
+  }
+  .spinner {
+    display: block;
+  }
+}
+
+.spinner {
+  position: absolute;
+  border: 5px solid #f06f6f; /* Light grey */
+  border-top: 5px solid #ffa5a5; /* Blue */
+  border-radius: 50%;
+
+  left: 0;
+  right: 0;
+  text-align: center;
+  width: 20px;
+  height: 20px;
+  display: none;
+  animation: spin 2s linear infinite;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
