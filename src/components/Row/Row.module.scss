@@ -74,7 +74,7 @@
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 420px) {
   .row {
     h2 {
       font-size: 1.2rem;
@@ -87,5 +87,8 @@
         }
       }
     }
+  }
+  .row__empty {
+    font-size: 13px;
   }
 }

@@ -91,7 +91,9 @@ function Row({
           {!isListEmpty ? (
             showData
           ) : (
-            <span>You have not added any titles yet</span>
+            <span className={styles.row__empty}>
+              You have not added any titles yet
+            </span>
           )}
         </div>
         <button
