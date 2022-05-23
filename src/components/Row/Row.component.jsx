@@ -7,6 +7,9 @@ import { ReactComponent as RightArrow } from "../../assets/images/right-arrow.sv
 import { returnArrayOfMoviesInList } from "../../firebase";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
+import toast from "react-hot-toast";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner.component";
+import { toastStyleError } from "../../utils/globalVariables";
 
 function Row({
   title,
@@ -18,20 +21,30 @@ function Row({
   const [movies, setMovies] = useState([]);
   const ref = useRef();
   const user = useSelector(selectUser);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!fetchUrl) return;
     const fetchMovies = async () => {
-      const request = await fetch(`${fetchData.baseUrl}${fetchUrl}`);
-      const data = await request.json();
-      const moviesWithType = data.results.map((movieArr) => {
-        return {
-          ...movieArr,
-          media_type: type,
-        };
-      });
-      setMovies(moviesWithType);
-
+      let request;
+      try {
+        setLoading(true);
+        request = await fetch(`${fetchData.baseUrl}${fetchUrl}`);
+        const data = await request.json();
+        const moviesWithType = data.results.map((movieArr) => {
+          return {
+            ...movieArr,
+            media_type: type,
+          };
+        });
+        setMovies(moviesWithType);
+      } catch (error) {
+        toast(`⚠ ${error.message}`, {
+          duration: 6000,
+          style: toastStyleError,
+        });
+      }
+      setLoading(false);
       return request;
     };
 
@@ -57,6 +70,8 @@ function Row({
       )
   );
 
+  const showData = isLoading ? <LoadingSpinner /> : moviePosterArray;
+
   return (
     <div className={styles.row}>
       <h2>{title}</h2>
@@ -74,7 +89,7 @@ function Row({
           ref={ref}
         >
           {!isListEmpty ? (
-            moviePosterArray
+            showData
           ) : (
             <span>You have not added any titles yet</span>
           )}

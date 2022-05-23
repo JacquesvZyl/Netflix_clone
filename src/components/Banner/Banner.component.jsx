@@ -12,32 +12,43 @@ import {
   returnMoviesInList,
 } from "../../firebase";
 import { toastStyleError } from "../../utils/globalVariables";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner.component";
 import styles from "./Banner.module.scss";
 
 function Banner({ type }) {
   const [movie, setMovie] = useState([]);
   const [allMovies, setAllMovies] = useState(null);
   const [isAddedToList, setAddedToList] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const user = useSelector(selectUser);
 
   useEffect(() => {
     const fetchMovie = async () => {
-      let selectedMovie;
-      const request = await fetch(
-        `${fetchData.baseUrl}${fetchData.fetchNetflixOriginals}`
-      );
-      const data = await request.json();
+      let request;
+      setLoading(true);
+      try {
+        let selectedMovie;
+        request = await fetch(
+          `${fetchData.baseUrl}${fetchData.fetchNetflixOriginals}`
+        );
+        const data = await request.json();
 
-      while (!selectedMovie || !selectedMovie.backdrop_path) {
-        selectedMovie =
-          data.results[Math.floor(Math.random() * data.results.length - 1)];
+        while (!selectedMovie || !selectedMovie.backdrop_path) {
+          selectedMovie =
+            data.results[Math.floor(Math.random() * data.results.length - 1)];
+        }
+
+        const finalMovieData = { ...selectedMovie, media_type: type };
+        setMovie(finalMovieData);
+      } catch (error) {
+        toast(`${error.message}`, {
+          duration: 6000,
+          style: toastStyleError,
+        });
       }
-
-      const finalMovieData = { ...selectedMovie, media_type: type };
-      setMovie(finalMovieData);
-
+      setLoading(false);
       return request;
     };
 
@@ -63,22 +74,31 @@ function Banner({ type }) {
   };
 
   const setTrailer = async () => {
-    const resp = await fetch(
-      `https://api.themoviedb.org/3/${type}/${movie.id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos`
-    );
-    const data = await resp.json();
+    try {
+      const resp = await fetch(
+        `https://api.themoviedb.org/3/${type}/${movie.id}?api_key=${process.env.REACT_APP_API_KEY}&append_to_response=videos`
+      );
+      const data = await resp.json();
 
-    data.videos.results[0]
-      ? dispatch(
-          setTrailerData({ key: data.videos.results[0].key, isBanner: true })
-        )
-      : toast(`This title is currently unavailable`, {
-          duration: 6000,
-          style: toastStyleError,
-        });
+      data.videos.results[0]
+        ? dispatch(
+            setTrailerData({ key: data.videos.results[0].key, isBanner: true })
+          )
+        : toast(`This title is not currently available`, {
+            duration: 6000,
+            style: toastStyleError,
+          });
+    } catch (error) {
+      toast(`${error.message}`, {
+        duration: 6000,
+        style: toastStyleError,
+      });
+    }
   };
 
-  return (
+  return isLoading ? (
+    <LoadingSpinner />
+  ) : (
     <header
       className={styles.banner}
       style={{
