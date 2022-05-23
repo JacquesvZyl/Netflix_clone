@@ -1,6 +1,8 @@
 import React from "react";
+import toast from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { setTrailerData } from "../../features/trailerSlice";
+import { toastStyle } from "../../utils/globalVariables";
 import styles from "./RowPoster.module.scss";
 
 function RowPoster(props) {
@@ -32,7 +34,10 @@ function RowPoster(props) {
         })
       );
     } else {
-      alert("This video is currently unavailable. Please try again later");
+      toast(`This title is currently unavailable`, {
+        duration: 6000,
+        style: toastStyle,
+      });
     }
   };
 

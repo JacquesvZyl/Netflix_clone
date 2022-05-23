@@ -1,4 +1,5 @@
 import React from "react";
+
 import { fetchData } from "../../app/data";
 import Banner from "../../components/Banner/Banner.component";
 import Navbar from "../../components/navbar/Navbar.component";

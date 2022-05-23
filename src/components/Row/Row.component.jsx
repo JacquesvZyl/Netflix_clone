@@ -36,19 +36,19 @@ function Row({
     };
 
     fetchMovies();
-  }, [fetchUrl]);
+  }, [fetchUrl, type]);
 
   useEffect(() => {
     if (!isMyList) return;
 
     returnArrayOfMoviesInList(user, setMovies);
-  }, [isMyList]);
+  }, [isMyList, user]);
 
   const scroll = (scrollOffset) => {
     ref.current.scrollLeft += scrollOffset;
   };
 
-  const isListEmpty = isMyList && movies.length == 0;
+  const isListEmpty = isMyList && movies.length === 0;
 
   const moviePosterArray = movies.map(
     (movie) =>

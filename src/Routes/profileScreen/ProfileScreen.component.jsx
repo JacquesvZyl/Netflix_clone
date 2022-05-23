@@ -8,6 +8,8 @@ import { capitalizeFirstLetter } from "../../utils/utilFunctions";
 import styles from "./ProfileScreen.module.scss";
 import netflixAvatar from "../../assets/images/Netflix_avatar.png";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner.component";
+import { toastStyleError } from "../../utils/globalVariables";
+import toast from "react-hot-toast";
 
 function ProfileScreen() {
   const [isloading, setLoading] = useState(false);
@@ -22,7 +24,10 @@ function ProfileScreen() {
         const data = await getPlans();
         setProducts(data);
       } catch (error) {
-        alert(error.message);
+        toast(`⚠ ${error.message}`, {
+          duration: 6000,
+          style: toastStyleError,
+        });
       }
       setLoading(false);
     };

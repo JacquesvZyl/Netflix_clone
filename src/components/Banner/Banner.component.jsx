@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+
 import { useDispatch, useSelector } from "react-redux";
 import { fetchData } from "../../app/data";
 
@@ -9,6 +11,7 @@ import {
   isMovieInList,
   returnMoviesInList,
 } from "../../firebase";
+import { toastStyle } from "../../utils/globalVariables";
 import styles from "./Banner.module.scss";
 
 function Banner({ type }) {
@@ -39,7 +42,7 @@ function Banner({ type }) {
     };
 
     fetchMovie();
-  }, []);
+  }, [type]);
 
   useEffect(() => {
     return returnMoviesInList(user, setAllMovies);
@@ -69,7 +72,10 @@ function Banner({ type }) {
       ? dispatch(
           setTrailerData({ key: data.videos.results[0].key, isBanner: true })
         )
-      : alert("No video Found");
+      : toast(`This title is currently unavailable`, {
+          duration: 6000,
+          style: toastStyle,
+        });
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectUser } from "../../features/userSlice";
 
 import {
@@ -25,13 +25,13 @@ function VideoInfo(props) {
 
   useEffect(() => {
     return returnMoviesInList(user, setAllMovies);
-  }, [movie?.id]);
+  }, [movie?.id, user]);
 
   useEffect(() => {
     if (!allMovies) return;
     const checkMovieList = isMovieInList(allMovies, movie);
     setAddedToList(checkMovieList);
-  }, [allMovies]);
+  }, [allMovies, movie]);
 
   return (
     <div

@@ -1,7 +1,9 @@
 import { doc, setDoc } from "firebase/firestore";
 import React, { useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { createAuthUserWithEmailAndPassword, db } from "../../firebase";
+import { toastStyleError } from "../../utils/globalVariables";
 import ButtonWithSpinner from "../UI/ButtonWithSpinner/ButtonWithSpinner.component";
 import styles from "./SignUpForm.module.scss";
 
@@ -22,13 +24,16 @@ function SignUpForm() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      console.log(resp);
+
       await setDoc(doc(db, "customers", resp.user.uid), {
         myList: [],
       });
       navigate("/profile");
     } catch (error) {
-      alert(error.message);
+      toast(`⚠ ${error.message}`, {
+        duration: 6000,
+        style: toastStyleError,
+      });
     }
     setLoading(false);
   };

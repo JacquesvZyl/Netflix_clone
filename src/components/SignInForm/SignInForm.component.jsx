@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPw } from "../../firebase";
+import { toastStyleError } from "../../utils/globalVariables";
 import ButtonWithSpinner from "../UI/ButtonWithSpinner/ButtonWithSpinner.component";
 import styles from "./SignInForm.module.scss";
 
@@ -14,13 +16,16 @@ function SignInForm() {
     e.preventDefault();
     try {
       setLoading(true);
-      const resp = await signInWithEmailAndPw(
+      await signInWithEmailAndPw(
         emailRef.current.value,
         passwordRef.current.value
       );
       navigate("/watch");
     } catch (error) {
-      alert(error.message);
+      toast(`⚠ ${error.message}`, {
+        duration: 6000,
+        style: toastStyleError,
+      });
     }
     setLoading(false);
   };

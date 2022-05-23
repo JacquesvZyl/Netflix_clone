@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPlan } from "../../features/subScriptionPlanSlice";
 import { getSubscription, loadCheckout } from "../../firebase";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner.component";
 import Plan from "../plan/Plan.component";
 import styles from "./Plans.module.scss";
 function Plans(props) {
@@ -12,7 +11,6 @@ function Plans(props) {
 
   useEffect(() => {
     const getSub = async () => {
-      console.log("running");
       const currentsub = await getSubscription(user);
       dispatch(addPlan(currentsub));
     };

@@ -7,7 +7,14 @@ import VideoInfo from "../VideoInfo/VideoInfo.component";
 import styles from "./VideoPopup.module.scss";
 const rootElement = document.getElementById("popup-root");
 
-const opts = {
+const optsDesktop = {
+  playerVars: {
+    autoplay: 1,
+  },
+};
+const optsMobile = {
+  width: 320,
+  height: 160,
   playerVars: {
     autoplay: 1,
   },
@@ -31,12 +38,16 @@ function VideoPopup() {
   };
   return ReactDOM.createPortal(
     <>
+      {console.log(window.innerWidth)}
       <Backdrop onClick={onModalClick} />
       <div className={styles.modal}>
         {!playVideo && !trailer.isBanner ? (
           <VideoInfo onPlayVideo={onPlayVideo} />
         ) : (
-          <YouTube videoId={trailer.key} opts={opts} />
+          <YouTube
+            videoId={trailer.key}
+            opts={window.innerWidth < 640 ? optsMobile : optsDesktop}
+          />
         )}
       </div>
     </>,

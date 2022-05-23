@@ -12,6 +12,7 @@ import VideoPopup from "./components/videoPlayerPopup/VideoPopup.component";
 
 import SubscriptionRoute from "./components/ProtectedRoutes/SubscriptionRoute.component";
 import ProfileRoute from "./components/ProtectedRoutes/ProfileRoute..component";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   const trailer = useSelector((state) => state.trailer.trailerData);
@@ -50,6 +51,7 @@ function App() {
         <Route path="/sign-in" element={<Login />} />
         <Route path="*" element={<Navigate replace to="/watch" />} />
       </Routes>
+      <Toaster position="bottom center" />
     </div>
   );
 }

@@ -75,7 +75,12 @@
 }
 
 @media screen and (max-width: 400px) {
-  .row__scrollBtn {
-    display: none;
+  .row {
+    h2 {
+      font-size: 1.2rem;
+    }
+    .row__scrollBtn {
+      display: none;
+    }
   }
 }

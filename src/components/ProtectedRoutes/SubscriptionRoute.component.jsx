@@ -16,7 +16,6 @@ function SubscriptionRoute({ children }) {
   useEffect(() => {
     if (!user) return;
     const getSub = async () => {
-      console.log("running");
       const currentsub = await getSubscription(user);
       dispatch(addPlan(currentsub));
       setSavedSubscription(true);
@@ -26,7 +25,6 @@ function SubscriptionRoute({ children }) {
   }, [user, dispatch]);
 
   useEffect(() => {
-    console.log("running useEffect is App.js");
     const unsubscribe = onAuthStateChangeListener((user) => {
       if (user) {
         //logged in
@@ -51,15 +49,13 @@ function SubscriptionRoute({ children }) {
 
   if (savedUser) {
     if (!user) {
-      console.log("no UID can be found. Redirecting to /signIn");
       return <Navigate to="/sign-in" replace />;
     }
     if (savedSubscription) {
       if (!subscription?.role) {
-        console.log("no subscription can be found. Redirecting to /profile");
         return <Navigate to="/profile" replace />;
       }
-      console.log("UID and subscription found. Redirecting to /watch");
+
       return children;
     }
   }

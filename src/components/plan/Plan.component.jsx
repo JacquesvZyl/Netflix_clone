@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import LoadingSpinner from "../LoadingSpinner/LoadingSpinner.component";
+import toast from "react-hot-toast";
+import { toastStyleError } from "../../utils/globalVariables";
+
 import ButtonWithSpinner from "../UI/ButtonWithSpinner/ButtonWithSpinner.component";
 import styles from "./Plan.module.scss";
 
@@ -12,7 +14,7 @@ function Plan(props) {
     .includes(subscription?.role);
 
   const currentPackage = isCurrentPackage ? "Current Package" : "Subscribe";
-  console.log("plan running");
+
   const onClickHandler = async () => {
     if (!isCurrentPackage) {
       setLoading(true);
@@ -23,7 +25,10 @@ function Plan(props) {
         );
       } catch (error) {
         setLoading(false);
-        alert(error.message);
+        toast(`⚠ ${error.message}`, {
+          duration: 6000,
+          style: toastStyleError,
+        });
       }
     }
   };
@@ -39,14 +44,6 @@ function Plan(props) {
         <h5>{productData.name}</h5>
         <h6>{productData.description}</h6>
       </div>
-      {/*       <button
-        className={isLoading ? styles.button__loading : undefined}
-        onClick={onClickHandler}
-        disabled={isLoading}
-      >
-        <span className={styles.text}>{currentPackage}</span>
-        <span className={styles.spinner}></span>
-      </button> */}
       <ButtonWithSpinner isLoading={isLoading} onClick={onClickHandler}>
         {currentPackage}
       </ButtonWithSpinner>

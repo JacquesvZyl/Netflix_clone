@@ -1,5 +1,3 @@
-import { async } from "@firebase/util";
-import { loadStripe } from "@stripe/stripe-js";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -11,7 +9,6 @@ import {
 
 import {
   addDoc,
-  arrayUnion,
   collection,
   deleteDoc,
   doc,
@@ -20,8 +17,9 @@ import {
   onSnapshot,
   query,
   setDoc,
-  updateDoc,
 } from "firebase/firestore";
+import toast from "react-hot-toast";
+import { toastStyle, toastStyleError } from "./utils/globalVariables";
 
 const firebaseConfig = {
   apiKey: "AIzaSyALoe89lhxJZ8eqXS3XpqUmsDFxSW-GGRQ",
@@ -49,7 +47,6 @@ export async function createAuthUserWithEmailAndPassword(email, password) {
   try {
     if (!email || !password) throw new Error("Email or password is blank");
 
-    console.log(auth);
     return await createUserWithEmailAndPassword(auth, email, password);
   } catch (error) {
     throw error;
@@ -110,7 +107,10 @@ export async function loadCheckout(user, priceId, origin) {
       }
     });
   } catch (error) {
-    alert(`an Error occured: ${error.message}`);
+    toast(` ⚠ an Error occured: ${error.message}`, {
+      duration: 6000,
+      style: toastStyleError,
+    });
   }
 }
 
@@ -148,6 +148,10 @@ export async function addRemoveToList(user, movie, addedToList) {
     await deleteDoc(
       doc(db, "customers", user.uid, "myList", movie?.id.toString())
     );
+    toast(`${movie?.title || movie?.name} has been removed from My List`, {
+      duration: 6000,
+      style: toastStyle,
+    });
   } else {
     //add
     await setDoc(
@@ -156,6 +160,10 @@ export async function addRemoveToList(user, movie, addedToList) {
         ...movie,
       }
     );
+    toast(`${movie?.title || movie?.name} has been added to My List`, {
+      duration: 6000,
+      style: toastStyle,
+    });
   }
 }
 
@@ -164,14 +172,6 @@ export function returnMoviesInList(user, setMovies) {
     collection(db, `customers/${user.uid}/myList`),
     (snapshot) => setMovies(snapshot.docs)
   );
-
-  /*   const movieList = [];
-  const ref = collection(db, `customers/${user.uid}/myList`);
-  const q = query(ref);
-  const snapShot = await getDocs(q);
-  snapShot.forEach((movie) => {
-    movieList.push(movie.data());
-  }); */
 }
 
 export function returnArrayOfMoviesInList(user, setMovies) {
