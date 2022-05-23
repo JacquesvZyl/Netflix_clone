@@ -13,9 +13,9 @@ Stripe is running in test mode, so a test credit card can be used:
 
 ##### `Test CC details`
 
-Card Number: 4242 4242 4242 4242\
+Card Number: 4242 4242 4242 4242
 
-Expiry date: and valid date (eg: 02/26)\
+Expiry date: and valid date (eg: 02/26)
 
 CVV: any 3 digit number (eg: 123)
 
@@ -23,6 +23,6 @@ CVV: any 3 digit number (eg: 123)
 
 You can login with an account which has a plan already set up.
 
-Username: test@test.com\
+Username: test@test.com
 
 Password: 1111111
