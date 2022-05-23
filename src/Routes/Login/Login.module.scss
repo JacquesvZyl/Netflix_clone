@@ -4,9 +4,6 @@
   background: url(../../assets/images/login_background.jpg) center no-repeat;
   background-size: cover;
 
-  .loginScreen__background {
-  }
-
   .loginScreen__logo {
     position: fixed;
     left: 0;
@@ -52,43 +49,5 @@
     padding: 20px;
     left: 0;
     right: 0;
-
-    h1 {
-      font-size: 3.125rem;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      font-size: 2rem;
-      font-weight: 400;
-      margin-bottom: 30px;
-    }
-
-    h3 {
-      font-size: 1.3rem;
-      font-weight: 400;
-    }
-  }
-
-  .loginScreen__input {
-    margin: 20px;
-    input {
-      padding: 10px;
-      outline-width: 0;
-      height: 30px;
-      width: 30%;
-      border: none;
-      max-width: 600px;
-    }
-
-    .loginScreen__getStarted {
-      padding: 16px 20px;
-      font-size: 1rem;
-      color: #fff;
-      background-color: #e50914;
-      border: none;
-      font-weight: 600;
-      cursor: pointer;
-    }
   }
 }

@@ -76,7 +76,7 @@ function Row({
           {!isListEmpty ? (
             moviePosterArray
           ) : (
-            <span>You have not added any shows or movies yet</span>
+            <span>You have not added any titles yet</span>
           )}
         </div>
         <button

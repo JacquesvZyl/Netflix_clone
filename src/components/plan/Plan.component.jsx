@@ -6,7 +6,14 @@ import ButtonWithSpinner from "../UI/ButtonWithSpinner/ButtonWithSpinner.compone
 import styles from "./Plan.module.scss";
 
 function Plan(props) {
-  const { subscription, productData, productId, loadCheckoutHandler } = props;
+  const {
+    subscription,
+    productData,
+    productId,
+    loadCheckoutHandler,
+    onLoadHandler,
+    loading,
+  } = props;
   const [isLoading, setLoading] = useState(false);
 
   const isCurrentPackage = productData.name
@@ -18,6 +25,7 @@ function Plan(props) {
   const onClickHandler = async () => {
     if (!isCurrentPackage) {
       setLoading(true);
+      onLoadHandler(true);
       try {
         await loadCheckoutHandler(
           productData.prices.priceId,
@@ -25,6 +33,7 @@ function Plan(props) {
         );
       } catch (error) {
         setLoading(false);
+        onLoadHandler(false);
         toast(`⚠ ${error.message}`, {
           duration: 6000,
           style: toastStyleError,
@@ -44,7 +53,11 @@ function Plan(props) {
         <h5>{productData.name}</h5>
         <h6>{productData.description}</h6>
       </div>
-      <ButtonWithSpinner isLoading={isLoading} onClick={onClickHandler}>
+      <ButtonWithSpinner
+        isLoading={isLoading}
+        onClick={onClickHandler}
+        disabled={loading}
+      >
         {currentPackage}
       </ButtonWithSpinner>
     </div>

@@ -39,41 +39,43 @@ function ProfileScreen() {
     await signOutUser();
   };
   return (
-    <div className={styles.profileScreen}>
+    <>
       <Navbar />
-      <div className={styles.profileScreen__body}>
-        <h1>Edit Profile</h1>
-        <div className={styles.profileScreen__info}>
-          <img src={netflixAvatar} alt="avatar" />
-          <div className={styles.profileScreen__details}>
-            <h2>{user.email}</h2>
-            <div className={styles.profileScreen__plans}>
-              <h3>
-                Plans{" "}
-                <span>
-                  (Current Plan:{" "}
-                  {subscription?.role
-                    ? capitalizeFirstLetter(subscription.role)
-                    : "None"}
-                  )
-                </span>
-              </h3>
-              {isloading ? (
-                <LoadingSpinner width="265px" />
-              ) : (
-                <Plans products={products} />
-              )}
-              <button
-                className={styles.profileScreen__signOut}
-                onClick={logoutUser}
-              >
-                Sign Out
-              </button>
+      <div className={styles.profileScreen}>
+        <div className={styles.profileScreen__body}>
+          <h1>Edit Profile</h1>
+          <div className={styles.profileScreen__info}>
+            <img src={netflixAvatar} alt="avatar" />
+            <div className={styles.profileScreen__details}>
+              <h2>{user.email}</h2>
+              <div className={styles.profileScreen__plans}>
+                <h3>
+                  Plans{" "}
+                  <span>
+                    (Current Plan:{" "}
+                    {subscription?.role
+                      ? capitalizeFirstLetter(subscription.role)
+                      : "None"}
+                    )
+                  </span>
+                </h3>
+                {isloading ? (
+                  <LoadingSpinner width="265px" />
+                ) : (
+                  <Plans products={products} />
+                )}
+                <button
+                  className={styles.profileScreen__signOut}
+                  onClick={logoutUser}
+                >
+                  Sign Out
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 

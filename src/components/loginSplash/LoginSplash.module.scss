@@ -1,0 +1,67 @@
+.login__splash {
+  h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 30px;
+  }
+
+  h3 {
+    font-size: 25px;
+    font-weight: 400;
+  }
+
+  .loginScreen__getStarted {
+    margin-top: 20px;
+    padding: 16px 20px;
+    font-size: 20px;
+    color: #fff;
+    background-color: #e50914;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .login__splash {
+    h1 {
+      font-size: 35px;
+    }
+
+    h2 {
+      font-size: 30px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    .loginScreen__getStarted {
+      font-size: 20px;
+    }
+  }
+}
+@media screen and (max-width: 400px) {
+  .login__splash {
+    h1 {
+      font-size: 30px;
+    }
+
+    h2 {
+      font-size: 25px;
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+
+    .loginScreen__getStarted {
+      font-size: 15px;
+    }
+  }
+}

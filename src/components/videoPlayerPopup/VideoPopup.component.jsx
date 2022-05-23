@@ -38,7 +38,6 @@ function VideoPopup() {
   };
   return ReactDOM.createPortal(
     <>
-      {console.log(window.innerWidth)}
       <Backdrop onClick={onModalClick} />
       <div className={styles.modal}>
         {!playVideo && !trailer.isBanner ? (

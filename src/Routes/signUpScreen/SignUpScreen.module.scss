@@ -14,3 +14,10 @@
     text-decoration: underline;
   }
 }
+
+@media screen and (max-width: 450px) {
+  .signUpScreen {
+    max-width: 100%;
+    padding: 70px 30px;
+  }
+}

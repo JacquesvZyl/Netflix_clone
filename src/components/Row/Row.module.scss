@@ -1,11 +1,11 @@
 .row {
   color: #fff;
-  margin-left: 20px;
 
   h2 {
     text-transform: uppercase;
     font-size: 1.4rem;
     padding: 20px 0px;
+    margin-left: 20px;
   }
 
   .row__btn__container {
@@ -67,7 +67,7 @@
   }
 
   .row__scrollBtn--left {
-    left: -20px;
+    left: 0;
   }
   .row__scrollBtn--right {
     right: 0;
@@ -79,8 +79,13 @@
     h2 {
       font-size: 1.2rem;
     }
-    .row__scrollBtn {
-      display: none;
+
+    .row__btn__container {
+      &:hover {
+        .row__scrollBtn {
+          display: none;
+        }
+      }
     }
   }
 }

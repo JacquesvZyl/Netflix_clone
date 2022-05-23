@@ -148,7 +148,7 @@ export async function addRemoveToList(user, movie, addedToList) {
     await deleteDoc(
       doc(db, "customers", user.uid, "myList", movie?.id.toString())
     );
-    toast(`${movie?.title || movie?.name} has been removed from My List`, {
+    toast(`${movie?.title || movie?.name} has been removed from your List`, {
       duration: 6000,
       style: toastStyle,
     });
@@ -160,7 +160,7 @@ export async function addRemoveToList(user, movie, addedToList) {
         ...movie,
       }
     );
-    toast(`${movie?.title || movie?.name} has been added to My List`, {
+    toast(`${movie?.title || movie?.name} has been added to your List`, {
       duration: 6000,
       style: toastStyle,
     });

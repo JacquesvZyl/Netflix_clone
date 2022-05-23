@@ -11,7 +11,7 @@ import {
   isMovieInList,
   returnMoviesInList,
 } from "../../firebase";
-import { toastStyle } from "../../utils/globalVariables";
+import { toastStyleError } from "../../utils/globalVariables";
 import styles from "./Banner.module.scss";
 
 function Banner({ type }) {
@@ -74,7 +74,7 @@ function Banner({ type }) {
         )
       : toast(`This title is currently unavailable`, {
           duration: 6000,
-          style: toastStyle,
+          style: toastStyleError,
         });
   };
 

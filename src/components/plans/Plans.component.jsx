@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addPlan } from "../../features/subScriptionPlanSlice";
 import { getSubscription, loadCheckout } from "../../firebase";
 import Plan from "../plan/Plan.component";
 import styles from "./Plans.module.scss";
 function Plans(props) {
+  const [isLoading, setLoading] = useState(false);
   const subscription = useSelector((state) => state.subscription.plan);
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
@@ -42,6 +43,8 @@ function Plans(props) {
 
           return (
             <Plan
+              loading={isLoading}
+              onLoadHandler={setLoading}
               subscription={subscription}
               productData={productData}
               productId={productId}
